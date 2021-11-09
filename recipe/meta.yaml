@@ -1,26 +1,26 @@
-{% set name = "pIDLy" %}
+{% set name = "pidly" %}
 {% set version = "0.2.7" %}
 
+
 package:
-  name: '{{ name|lower }}'
-  version: '{{ version }}'
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  fn: '{{ name }}-{{ version }}.tar.gz'
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  'sha256': '6c9e77d710c09de6856431869b0cca2bc8ac2de961af82ac8665b38fc535567e'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/pIDLy-{{ version }}.tar.gz
+  sha256: 6c9e77d710c09de6856431869b0cca2bc8ac2de961af82ac8665b38fc535567e
 
 build:
   number: 1003
-  script: python setup.py install --single-version-externally-managed --record=record.txt
-  skip: True  # [win]
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
-    - python
-    - setuptools
+    - python >=3.6
+    - pip
   run:
-    - python
+    - python >=3.6
     - numpy
     - pexpect
     - scipy
@@ -28,6 +28,10 @@ requirements:
 test:
   imports:
     - pidly
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
   home: https://github.com/anthonyjsmith/pIDLy
